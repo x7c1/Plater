@@ -103,7 +103,7 @@ class Xc_FilteredIterator implements \Iterator{
         } else {
             $is_target = false;
         }
-        return array($is_target, $is_valid);
+        return [$is_target, $is_valid];
     }
 
 }
