@@ -1,4 +1,4 @@
-<?php
+<?
 
 if(!class_exists('x7c1_Plater')) {
     class x7c1_Plater {
