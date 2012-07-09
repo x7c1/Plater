@@ -1,15 +1,15 @@
 <?
-use x7c1\plater\collection\iterator\Xc_Iterator;
+use x7c1\plater\collection\iterator\Xc_ArrayIterator;
 
 class Xc_IteratorTest extends \PHPUnit_Framework_TestCase{
 
     public function test_empty(){
-        $iter = new Xc_Iterator([]);
+        $iter = new Xc_ArrayIterator([]);
         $this->assertSame([], $this->iter_to_array($iter));
     }
 
     public function test_map(){
-        $iter = new Xc_Iterator([2, 3, 4]);
+        $iter = new Xc_ArrayIterator([2, 3, 4]);
 
         $mul = function($x){
             return $x * 2;
@@ -31,7 +31,7 @@ class Xc_IteratorTest extends \PHPUnit_Framework_TestCase{
     }
 
     public function test_filter(){
-        $iter = new Xc_Iterator([2, 3, 4, 5]);
+        $iter = new Xc_ArrayIterator([2, 3, 4, 5]);
 
         $is_greater = function($x){
             return $x > 2;

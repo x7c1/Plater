@@ -10,7 +10,7 @@ trait Xc_IteratorBase {
     }
 }
 
-class Xc_Iterator implements \Iterator{
+class Xc_ArrayIterator implements \Iterator{
     use Xc_IteratorBase;
 
     protected $position;
