@@ -1,6 +1,6 @@
 <?
 
-if(!class_exists('x7c1_Plater')) {
+if(!class_exists('x7c1_PlaterLoader')) {
     class x7c1_PlaterLoader {
         private $main_dir;
 
