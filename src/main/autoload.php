@@ -1,7 +1,7 @@
 <?
 
 if(!class_exists('x7c1_Plater')) {
-    class x7c1_Plater {
+    class x7c1_PlaterLoader {
         private $main_dir;
 
         public function __construct(){
@@ -12,6 +12,6 @@ if(!class_exists('x7c1_Plater')) {
             require_once str_replace('\\', '/', $path) . '.php';
         }
     }
-    spl_autoload_register([new x7c1_Plater, 'autoload']);
+    spl_autoload_register([new x7c1_PlaterLoader, 'autoload']);
 }
 
