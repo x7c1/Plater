@@ -2,6 +2,8 @@
 
 if(!class_exists('x7c1_Plater')) {
     class x7c1_Plater {
+        private $main_dir;
+
         public function __construct(){
             $this->main_dir = realpath(__DIR__ . '/../main');
         }
