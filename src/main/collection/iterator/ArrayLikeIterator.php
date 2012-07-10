@@ -1,17 +1,17 @@
 <?
 namespace x7c1\plater\collection\iterator;
 
-trait Xc_IteratorBase {
+trait IteratorMethods {
     public function map($callback){
-        return new Xc_MappedIterator($this, $callback);
+        return new MappedIterator($this, $callback);
     }
     public function filter($callback){
-        return new Xc_FilteredIterator($this, $callback);
+        return new FilteredIterator($this, $callback);
     }
 }
 
-class Xc_ArrayIterator implements \Iterator{
-    use Xc_IteratorBase;
+class ArrayLikeIterator implements \Iterator{
+    use IteratorMethods;
 
     protected $position;
     protected $underlying;
@@ -39,7 +39,7 @@ class Xc_ArrayIterator implements \Iterator{
     }
 }
 
-trait Xc_IteratorDelegatee {
+trait IteratorDelegator {
     public function current(){
         return $this->underlying->current();
     }
@@ -57,9 +57,9 @@ trait Xc_IteratorDelegatee {
     }
 }
 
-class Xc_MappedIterator implements \Iterator{
-    use Xc_IteratorBase;
-    use Xc_IteratorDelegatee;
+class MappedIterator implements \Iterator{
+    use IteratorMethods;
+    use IteratorDelegator;
 
     protected $underlying;
     protected $callback;
@@ -75,9 +75,9 @@ class Xc_MappedIterator implements \Iterator{
     }
 }
 
-class Xc_FilteredIterator implements \Iterator{
-    use Xc_IteratorBase;
-    use Xc_IteratorDelegatee;
+class FilteredIterator implements \Iterator{
+    use IteratorMethods;
+    use IteratorDelegator;
 
     protected $underlying;
     protected $callback;
