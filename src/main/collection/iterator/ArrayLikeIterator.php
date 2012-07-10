@@ -49,8 +49,6 @@ trait ArrayLikeDelegator{
 
 class ArrayLikeIterator_FromArray implements \Iterator{
 
-    use IteratorMethods;
-    use ArrayLikeMethods;
     use ArrayLikeDelegator;
 
     private $position;
@@ -64,8 +62,6 @@ class ArrayLikeIterator_FromArray implements \Iterator{
 
 class ArrayLikeIterator_FromIterator implements \Iterator{
 
-    use IteratorMethods;
-    use ArrayLikeMethods;
     use IteratorDelegator;
 
     private $underlying;
