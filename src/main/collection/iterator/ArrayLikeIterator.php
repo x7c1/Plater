@@ -11,7 +11,7 @@ class ArrayLikeIterator implements \Iterator{
 
     public function __construct($underlying=[]){
         $this->underlying = ($underlying instanceof \Iterator) ?
-            new ArrayLikeIterator_FromIterator($underlying):
+            $underlying:
             new ArrayLikeIterator_FromArray($underlying);
     }
 }
@@ -54,21 +54,12 @@ class ArrayLikeIterator_FromArray implements \Iterator{
     private $position;
     private $underlying;
 
-    public function __construct(array $array){
+    /**
+     * @param   mixin   @array  array | ArrayAccess, Countable
+     */
+    public function __construct($array){
         $this->position = 0;
         $this->underlying = $array;
     }
 }
-
-class ArrayLikeIterator_FromIterator implements \Iterator{
-
-    use IteratorDelegator;
-
-    private $underlying;
-
-    public function __construct(\Iterator $iterator){
-        $this->underlying = $iterator;
-    }
-}
-
 
