@@ -12,9 +12,6 @@ trait IteratorMethods {
     public function invoke($method){
         return $this->buildFrom(new InvokeIterator($this, $method));
     }
-    public function getUnderlying(){
-        return $this->underlying;
-    }
     private function buildFrom($underlying){
         $class = get_class($this);
         return new $class($underlying);
@@ -32,7 +29,7 @@ trait IteratorMethods {
  *     -[valid]
  */
 
-class MapIterator implements IteratorBase{
+class MapIterator implements \Iterator{
 
     use IteratorMethods;
     use IteratorDelegator;
@@ -40,7 +37,7 @@ class MapIterator implements IteratorBase{
     private $underlying;
     private $callback;
 
-    public function __construct(IteratorBase $iterator, $callback){
+    public function __construct(\Iterator $iterator, $callback){
         $this->underlying = $iterator;
         $this->callback = $callback;
     }
@@ -51,7 +48,7 @@ class MapIterator implements IteratorBase{
     }
 }
 
-class FilterIterator implements IteratorBase{
+class FilterIterator implements \Iterator{
 
     use IteratorMethods;
     use IteratorDelegator;
@@ -59,7 +56,7 @@ class FilterIterator implements IteratorBase{
     private $underlying;
     private $callback;
 
-    public function __construct(IteratorBase $iterator, $callback){
+    public function __construct(\Iterator $iterator, $callback){
         $this->underlying = $iterator;
         $this->callback = $callback;
     }
@@ -84,7 +81,7 @@ class FilterIterator implements IteratorBase{
     }
 }
 
-class InvokeIterator implements IteratorBase{
+class InvokeIterator implements \Iterator{
 
     use IteratorMethods;
     use IteratorDelegator;
@@ -92,7 +89,7 @@ class InvokeIterator implements IteratorBase{
     private $underlying;
     private $method;
 
-    public function __construct(IteratorBase $iterator, $method){
+    public function __construct(\Iterator $iterator, $method){
         $this->underlying = $iterator;
         $this->method = $method;
     }

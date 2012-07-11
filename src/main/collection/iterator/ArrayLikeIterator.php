@@ -1,7 +1,7 @@
 <?
 namespace x7c1\plater\collection\iterator;
 
-class ArrayLikeIterator implements IteratorBase{
+class ArrayLikeIterator implements \Iterator{
 
     use IteratorMethods;
     use ArrayLikeMethods;

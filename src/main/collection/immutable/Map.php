@@ -1,11 +1,10 @@
 <?
 namespace x7c1\plater\collection\immutable;
 
-use x7c1\plater\collection\iterator\IteratorBase;
 use x7c1\plater\collection\iterator\IteratorMethods;
 use x7c1\plater\collection\iterator\IteratorDelegator;
 
-class Map implements IteratorBase{
+class Map implements \Iterator{
 
     use IteratorMethods;
     use IteratorDelegator;
@@ -64,10 +63,6 @@ class MapIterator_FromArray implements \Iterator{
     public function __construct($array){
         $this->underlying = $array;
         $this->has_next_entry = count($array) > 0;
-    }
-
-    public function getUnderlying(){
-        return $this->underlying;
     }
 
     public function current(){
