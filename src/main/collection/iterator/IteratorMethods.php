@@ -4,10 +4,16 @@ namespace x7c1\plater\collection\iterator;
 trait IteratorMethods {
 
     public function map($callback){
-        return $this->buildFrom(new MappedIterator($this, $callback));
+        return $this->buildFrom(new MapIterator($this, $callback));
     }
     public function filter($callback){
-        return $this->buildFrom(new FilteredIterator($this, $callback));
+        return $this->buildFrom(new FilterIterator($this, $callback));
+    }
+    public function invoke($method){
+        return $this->buildFrom(new InvokeIterator($this, $method));
+    }
+    public function getUnderlying(){
+        return $this->underlying;
     }
     private function buildFrom($underlying){
         $class = get_class($this);
@@ -26,7 +32,7 @@ trait IteratorMethods {
  *     -[valid]
  */
 
-class MappedIterator implements \Iterator{
+class MapIterator implements IteratorBase{
 
     use IteratorMethods;
     use IteratorDelegator;
@@ -34,7 +40,7 @@ class MappedIterator implements \Iterator{
     private $underlying;
     private $callback;
 
-    public function __construct(\Iterator $iterator, $callback){
+    public function __construct(IteratorBase $iterator, $callback){
         $this->underlying = $iterator;
         $this->callback = $callback;
     }
@@ -45,7 +51,7 @@ class MappedIterator implements \Iterator{
     }
 }
 
-class FilteredIterator implements \Iterator{
+class FilterIterator implements IteratorBase{
 
     use IteratorMethods;
     use IteratorDelegator;
@@ -53,7 +59,7 @@ class FilteredIterator implements \Iterator{
     private $underlying;
     private $callback;
 
-    public function __construct(\Iterator $iterator, $callback){
+    public function __construct(IteratorBase $iterator, $callback){
         $this->underlying = $iterator;
         $this->callback = $callback;
     }
@@ -76,5 +82,25 @@ class FilteredIterator implements \Iterator{
         }
         return [$is_target, $is_valid];
     }
+}
+
+class InvokeIterator implements IteratorBase{
+
+    use IteratorMethods;
+    use IteratorDelegator;
+
+    private $underlying;
+    private $method;
+
+    public function __construct(IteratorBase $iterator, $method){
+        $this->underlying = $iterator;
+        $this->method = $method;
+    }
+
+    public function current(){
+        $current = $this->underlying->current();
+        return $current->{$this->method}();
+    }
+
 }
 

@@ -1,7 +1,7 @@
 <?
 namespace x7c1\plater\collection\iterator;
 
-class ArrayLikeIterator implements \Iterator{
+class ArrayLikeIterator implements IteratorBase{
 
     use IteratorMethods;
     use ArrayLikeMethods;
@@ -20,8 +20,8 @@ trait ArrayLikeMethods {
 
     public function toArray(){
         $array = [];
-        foreach($this as $x){
-            $array[] = $x;
+        foreach($this as $value){
+            $array[] = $value;
         }
         return $array;
     }
