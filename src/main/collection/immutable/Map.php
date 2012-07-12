@@ -66,7 +66,7 @@ class MapIterator_FromArray implements \Iterator{
     }
 
     public function current(){
-        return new MapEntry($this->key(), current($this->underlying));
+        return current($this->underlying);
     }
     public function key(){
         return key($this->underlying);
@@ -82,58 +82,5 @@ class MapIterator_FromArray implements \Iterator{
         return $this->has_next_entry;
     }
 
-}
-
-class MapEntry implements \ArrayAccess{
-
-    private $key;
-    private $value;
-
-    public function __construct($key, $value){
-        $this->key = $key;
-        $this->value = $value;
-    }
-
-    public function getKey(){
-        return $this->key;
-    }
-
-    public function getValue(){
-        return $this->value;
-    }
-
-    public function offsetExists($offset){
-        switch($offset){
-            case 0 :
-            case 1 :
-                $exists = true;
-                break;
-            default:
-                $exists = false;
-        }
-        return $exists;
-    }
-
-    public function offsetGet($offset){
-        switch($offset){
-            case 0 :
-                $target = $this->key;
-                break;
-            case 1 :
-                $target = $this->value;
-                break;
-            default:
-                throw new OutOfBoundsException($offset);
-        }
-        return $target;
-    }
-
-    public function offsetSet($offset, $value){
-        throw new BadMethodCallException('offsetSet not allowed');
-    }
-
-    public function offsetUnset($offset){
-        throw new BadMethodCallException('offsetUnset not allowed');
-    }
 }
 

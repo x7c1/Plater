@@ -43,8 +43,9 @@ class MapIterator implements \Iterator{
     }
 
     public function current(){
+        $key = $this->underlying->key();
         $current = $this->underlying->current();
-        return call_user_func($this->callback, $current);
+        return call_user_func($this->callback, $current, $key);
     }
 }
 
@@ -73,7 +74,9 @@ class FilterIterator implements \Iterator{
     private function inspect_next(){
         $is_valid = $this->underlying->valid();
         if ($is_valid){
-            $is_target = call_user_func($this->callback, $this->underlying->current());
+            $key = $this->underlying->key();
+            $current = $this->underlying->current();
+            $is_target = call_user_func($this->callback, $current, $key);
         } else {
             $is_target = false;
         }

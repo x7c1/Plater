@@ -26,7 +26,7 @@ class MapTest extends \PHPUnit_Framework_TestCase{
             'a' => 11,
             'b' => 22,
         ]);
-        $iter = $map->filter(function($entry){ return $entry->getKey() === 'a' ; });
+        $iter = $map->filter(function($_, $key){ return $key === 'a' ; });
         $this->assertSame(['a' => 11], $iter->toArray());
         $this->assertTrue($iter->has('a'));
         $this->assertFalse($iter->has('b'));
@@ -37,7 +37,7 @@ class MapTest extends \PHPUnit_Framework_TestCase{
             'a' => 11,
             'b' => 22,
         ]);
-        $iter = $map->filter(function($entry){ return $entry->getValue() > 20; });
+        $iter = $map->filter(function($value){ return $value > 20; });
         $this->assertSame(['b' => 22], $iter->toArray());
         $this->assertTrue($iter->has('b'));
         $this->assertFalse($iter->has('a'));
@@ -48,7 +48,7 @@ class MapTest extends \PHPUnit_Framework_TestCase{
             'a' => 11,
             'b' => 22,
         ]);
-        $iter = $map->map(function($entry){ return $entry->getValue() * 2; });
+        $iter = $map->map(function($value){ return $value * 2; });
         $this->assertSame(['a' => 22, 'b' => 44], $iter->toArray());
         $this->assertSame(44, $iter->getOr('b', 55));
         $this->assertSame(123, $iter->getOr('c', 123));
@@ -65,15 +65,22 @@ class MapTest extends \PHPUnit_Framework_TestCase{
 
     public function test_invoke(){
         $map = new Map([
-            'a' => 11,
-            'b' => 22,
+            'a' => new MapTestSampleValue(11),
+            'b' => new MapTestSampleValue(22),
         ]);
         $iter = $map->invoke('getValue')->map(function($x){ return 2 * $x; });
         $this->assertSame(['a' => 22, 'b' => 44], $iter->toArray());
-
-        $iter = $map->invoke('getKey');
-        $this->assertSame(['a' => 'a', 'b' => 'b'], $iter->toArray());
     }
 
+}
+
+class MapTestSampleValue {
+    private $value;
+    public function __construct($value){
+        $this->value = $value;
+    }
+    public function getValue(){
+        return $this->value;
+    }
 }
 
