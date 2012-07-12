@@ -11,7 +11,7 @@ class Map implements \Iterator{
 
     private $underlying;
 
-    private $evaluated;
+    private $evaluated = null;
 
     public function __construct($underlying){
         $this->underlying = ($underlying instanceof \Iterator) ?
@@ -43,12 +43,9 @@ class Map implements \Iterator{
 
     public function toArray(){
         if (!is_array($this->evaluated)){
-            $array = [];
-            foreach($this as $key => $entry){
-                $array[$key] = ($entry instanceof MapEntry) ?
-                    $entry->getValue(): $entry;
-            }
-            $this->evaluated = $array;
+            $this->evaluated = [];
+            foreach($this as $key => $entry)
+                $this->evaluated[$key] = $entry;
         }
         return $this->evaluated;
     }
