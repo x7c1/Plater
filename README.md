@@ -8,5 +8,5 @@ Test
 
 2. run a test with option --bootstrap
 
-        phpunit --bootstrap ./src/main/autoload.php src/test/collection/iterator/Xc_ArrayIteratorTest.php
+        phpunit --bootstrap=./src/main/autoload.php --include-path=./ src/test
 
