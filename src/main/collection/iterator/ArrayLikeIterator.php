@@ -55,7 +55,7 @@ class ArrayLikeIterator_FromArray implements \Iterator{
     private $underlying;
 
     /**
-     * @param   mixin   @array  array | ArrayAccess, Countable
+     * @param   mixed   @array  array | ArrayAccess, Countable
      */
     public function __construct($array){
         $this->position = 0;
