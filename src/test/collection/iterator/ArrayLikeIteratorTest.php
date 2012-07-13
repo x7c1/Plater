@@ -3,6 +3,17 @@ use x7c1\plater\collection\iterator\ArrayLikeIterator;
 
 class ArrayLikeIteratorTest extends \PHPUnit_Framework_TestCase{
 
+    public function test_inner_cursor(){
+        $iter = new ArrayLikeIterator([1,2]);
+        $result = [];
+        foreach($iter as $i){
+            foreach($iter as $i)
+                foreach($iter as $i)
+                    $result[] = $i;
+        }
+        $this->assertSame([1,2,1,2,1,2,1,2], $result);
+    }
+
     public function test_empty(){
         $iter = new ArrayLikeIterator;
         $this->assertSame([], $iter->toArray());

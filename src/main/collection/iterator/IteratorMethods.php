@@ -4,13 +4,13 @@ namespace x7c1\plater\collection\iterator;
 trait IteratorMethods {
 
     public function map($callback){
-        return $this->buildFrom(new MapIterator($this, $callback));
+        return $this->buildFrom(new MapIterator($this->getIterator(), $callback));
     }
     public function filter($callback){
-        return $this->buildFrom(new FilterIterator($this, $callback));
+        return $this->buildFrom(new FilterIterator($this->getIterator(), $callback));
     }
     public function invoke($method){
-        return $this->buildFrom(new InvokeIterator($this, $method));
+        return $this->buildFrom(new InvokeIterator($this->getIterator(), $method));
     }
     private function buildFrom($underlying){
         $class = get_class($this);

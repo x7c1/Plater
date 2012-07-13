@@ -1,18 +1,21 @@
 <?
 namespace x7c1\plater\collection\iterator;
 
-class ArrayLikeIterator implements \Iterator{
+class ArrayLikeIterator implements \IteratorAggregate{
 
     use IteratorMethods;
     use ArrayLikeMethods;
-    use IteratorDelegator;
 
     private $underlying;
 
     public function __construct($underlying=[]){
-        $this->underlying = ($underlying instanceof \Iterator) ?
-            $underlying:
-            new ArrayLikeIterator_FromArray($underlying);
+        $this->underlying = $underlying;
+    }
+
+    public function getIterator(){
+        return $this->underlying instanceof \Iterator ?
+            $this->underlying:
+            new ArrayLikeIterator_FromArray($this->underlying);
     }
 }
 

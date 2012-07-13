@@ -4,19 +4,15 @@ namespace x7c1\plater\collection\immutable;
 use x7c1\plater\collection\iterator\IteratorMethods;
 use x7c1\plater\collection\iterator\IteratorDelegator;
 
-class Map implements \Iterator{
+class Map implements \IteratorAggregate{
 
     use IteratorMethods;
-    use IteratorDelegator;
 
     private $underlying;
-
     private $evaluated = null;
 
     public function __construct($underlying){
-        $this->underlying = ($underlying instanceof \Iterator) ?
-            $underlying:
-            new MapIterator_FromArray($underlying);
+        $this->underlying = $underlying;
     }
 
     public function has($key){
@@ -39,6 +35,12 @@ class Map implements \Iterator{
 
     public function values(){
         return array_values($this->toArray());
+    }
+
+    public function getIterator(){
+        return ($this->underlying instanceof \Iterator) ?
+            $this->underlying:
+            new MapIterator_FromArray($this->underlying);
     }
 
     public function toArray(){

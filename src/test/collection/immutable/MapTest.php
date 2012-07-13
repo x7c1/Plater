@@ -3,6 +3,17 @@ use x7c1\plater\collection\immutable\Map;
 
 class MapTest extends \PHPUnit_Framework_TestCase{
 
+    public function test_inner_cursor(){
+        $map = new Map(['a' => 1, 'b' => 2]);
+        $result = [];
+        foreach($map as $i){
+            foreach($map as $i)
+                foreach($map as $i)
+                    $result[] = $i;
+        }
+        $this->assertSame([1,2,1,2,1,2,1,2], $result);
+    }
+
     public function test_has(){
         $map = new Map([
             'a' => 11,
