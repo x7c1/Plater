@@ -5,7 +5,7 @@ trait IteratorMethods {
 
     /**
      * $this             : IteratorAggregate
-     * $this->underlying : array | CopyableIterator
+     * $this->underlying : CopyableIterator
      */
 
     public function map($callback){
@@ -21,22 +21,24 @@ trait IteratorMethods {
     }
 
     public function getIterator(){
-        return ($this->underlying instanceof CopyableIterator) ?
-            $this->underlying->copyIterator():
-            new RawArrayIterator($this->underlying);
-    }
-
-    public function assertIterableType($underlying){
-        $is_iterable = is_array($underlying) || ($underlying instanceof CopyableIterator);
-        if (!$is_iterable){
-            throw new \InvalidArgumentException('$underlying not iterable');
-        }
+        return $this->underlying->copyIterator();
     }
 
     private function buildFrom(CopyableIterator $underlying){
         $class = get_class($this);
         return new $class($underlying);
     }
+
+    private function createUnderlying($underlying){
+        if (is_array($underlying))
+            $iterator = new RawArrayIterator($underlying);
+        elseif($underlying instanceof CopyableIterator)
+            $iterator = $underlying;
+        else
+            throw new \InvalidArgumentException('$underlying not iterable');
+        return $iterator;
+    }
+
 }
 
 /**

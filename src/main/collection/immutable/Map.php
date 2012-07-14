@@ -12,8 +12,7 @@ class Map implements \IteratorAggregate, Arrayable{
     private $evaluated = null;
 
     public function __construct($underlying=[]){
-        $this->assertIterableType($underlying);
-        $this->underlying = $underlying;
+        $this->underlying = $this->createUnderlying($underlying);
     }
 
     public function has($key){
