@@ -72,7 +72,7 @@ class FilterIterator implements CopyableIterator{
     private $underlying;
     private $callback;
 
-    public function __construct(\Iterator $iterator, $callback){
+    public function __construct(CopyableIterator $iterator, $callback){
         $this->underlying = $iterator;
         $this->callback = $callback;
     }
@@ -111,7 +111,7 @@ class InvokeIterator implements CopyableIterator{
     private $underlying;
     private $method;
 
-    public function __construct(\Iterator $iterator, $method){
+    public function __construct(CopyableIterator $iterator, $method){
         $this->underlying = $iterator;
         $this->method = $method;
     }
