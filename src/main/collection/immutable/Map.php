@@ -2,31 +2,38 @@
 namespace x7c1\plater\collection\immutable;
 
 use x7c1\plater\collection\Arrayable;
+use x7c1\plater\collection\MapLike;
 use x7c1\plater\collection\iterator\IteratorMethods;
 
-class Map implements \IteratorAggregate, Arrayable{
+class Map implements \IteratorAggregate, Arrayable, MapLike{
 
     use IteratorMethods;
+    use MapLikeDelegator;
 
     private $underlying;
-    private $evaluated = null;
+    private $accessor;
 
     public function __construct($underlying=[]){
         $this->underlying = $this->createUnderlying($underlying);
+        $this->accessor = MapAccessorFactory::create($underlying);
     }
 
+    public function toArray(){
+        return $this->accessor->toArray();
+    }
+}
+
+trait MapLikeDelegator{
+    // $this : MapLike
+
     public function has($key){
-        $array = $this->toArray();
-        return array_key_exists($key, $array);
+        return array_key_exists($key, $this->toArray());
     }
 
     public function getOr($key, $default){
-        if ($this->has($key)){
-            $value = $this->toArray()[$key];
-        } else {
-            $value = $default;
-        }
-        return $value;
+        return $this->has($key)?
+            $this->toArray()[$key]:
+            $default;
     }
 
     public function keys(){
@@ -36,11 +43,57 @@ class Map implements \IteratorAggregate, Arrayable{
     public function values(){
         return array_values($this->toArray());
     }
+}
+
+use x7c1\plater\collection\iterator\CopyableIterator;
+
+class MapAccessorFactory{
+
+    /**
+     * @return  MapLike
+     */
+    public static function create($underlying){
+        if (is_array($underlying))
+            $accessor = new MapAccessor_FromArray($underlying);
+        elseif($underlying instanceof CopyableIterator)
+            $accessor = new MapAccessor_FromIterator($underlying);
+        else
+            throw new \InvalidArgumentException('$underlying not map');
+        return $accessor;
+    }
+}
+
+class MapAccessor_FromArray implements MapLike {
+
+    use MapLikeDelegator;
+
+    private $underlying;
+
+    public function __construct(array $underlying){
+        $this->underlying = $underlying;
+    }
+
+    public function toArray(){
+        return $this->underlying;
+    }
+}
+
+class MapAccessor_FromIterator implements MapLike {
+
+    use MapLikeDelegator;
+
+    private $evaluated;
+    private $underlying;
+
+    public function __construct(CopyableIterator $underlying){
+        $this->underlying = $underlying;
+        $this->evaluated = null;
+    }
 
     public function toArray(){
         if (!is_array($this->evaluated)){
             $this->evaluated = [];
-            foreach($this as $key => $entry)
+            foreach($this->underlying as $key => $entry)
                 $this->evaluated[$key] = $entry;
         }
         return $this->evaluated;
