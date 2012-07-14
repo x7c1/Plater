@@ -2,8 +2,11 @@
 namespace x7c1\plater\collection\iterator;
 
 trait IteratorMethods {
-    // $this <: IteratorAggregate
-    // $this->underlying <: (array | CopyableIterator)
+
+    /**
+     * $this             : IteratorAggregate
+     * $this->underlying : array | CopyableIterator
+     */
 
     public function map($callback){
         return $this->buildFrom(new MapIterator($this->getIterator(), $callback));
