@@ -29,16 +29,6 @@ trait IteratorMethods {
         return new $class($underlying);
     }
 
-    private function createUnderlying($underlying){
-        if (is_array($underlying))
-            $iterator = new RawArrayIterator($underlying);
-        elseif($underlying instanceof CopyableIterator)
-            $iterator = $underlying;
-        else
-            throw new \InvalidArgumentException('$underlying not iterable');
-        return $iterator;
-    }
-
 }
 
 /**

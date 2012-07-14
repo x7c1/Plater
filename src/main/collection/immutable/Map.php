@@ -4,6 +4,7 @@ namespace x7c1\plater\collection\immutable;
 use x7c1\plater\collection\Arrayable;
 use x7c1\plater\collection\MapLike;
 use x7c1\plater\collection\iterator\IteratorMethods;
+use x7c1\plater\collection\iterator\CopyableBuilder;
 
 class Map implements \IteratorAggregate, Arrayable, MapLike{
 
@@ -14,7 +15,7 @@ class Map implements \IteratorAggregate, Arrayable, MapLike{
     private $accessor;
 
     public function __construct($underlying=[]){
-        $this->underlying = $this->createUnderlying($underlying);
+        $this->underlying = CopyableBuilder::build($underlying);
         $this->accessor = MapAccessorFactory::create($underlying);
     }
 

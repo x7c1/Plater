@@ -10,7 +10,7 @@ class ArrayLikeIterator implements \IteratorAggregate, Arrayable{
     private $underlying;
 
     public function __construct($underlying=[]){
-        $this->underlying = $this->createUnderlying($underlying);
+        $this->underlying = CopyableBuilder::build($underlying);
     }
 
     public function toArray(){
