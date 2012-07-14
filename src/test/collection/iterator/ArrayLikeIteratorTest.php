@@ -3,15 +3,28 @@ use x7c1\plater\collection\iterator\ArrayLikeIterator;
 
 class ArrayLikeIteratorTest extends \PHPUnit_Framework_TestCase{
 
-    public function test_inner_cursor(){
+    public function test_internal_pointer(){
         $iter = new ArrayLikeIterator([1,2]);
         $result = [];
         foreach($iter as $i){
             foreach($iter as $i)
-                foreach($iter as $i)
-                    $result[] = $i;
+                $result[] = $i;
         }
-        $this->assertSame([1,2,1,2,1,2,1,2], $result);
+        $this->assertSame([1,2,1,2], $result);
+    }
+
+    public function test_internal_pointer_after_higher_functions(){
+        $iter = new ArrayLikeIterator([1,2,3]);
+        $iter = $iter
+            ->map(function($x){return $x * 2;})
+            ->filter(function($x){return $x > 2;});
+
+        $result = [];
+        foreach($iter as $i){
+            foreach($iter as $i)
+                $result[] = $i;
+        }
+        $this->assertSame([4,6,4,6], $result);
     }
 
     public function test_empty(){

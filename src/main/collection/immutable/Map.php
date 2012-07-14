@@ -1,17 +1,19 @@
 <?
 namespace x7c1\plater\collection\immutable;
 
+use x7c1\plater\collection\Arrayable;
 use x7c1\plater\collection\iterator\IteratorMethods;
-use x7c1\plater\collection\iterator\IteratorDelegator;
+use x7c1\plater\collection\iterator\CopyableIterator;
 
-class Map implements \IteratorAggregate{
+class Map implements \IteratorAggregate, Arrayable{
 
     use IteratorMethods;
 
     private $underlying;
     private $evaluated = null;
 
-    public function __construct($underlying){
+    public function __construct($underlying=[]){
+        $this->assertIterableType($underlying);
         $this->underlying = $underlying;
     }
 
@@ -38,8 +40,8 @@ class Map implements \IteratorAggregate{
     }
 
     public function getIterator(){
-        return ($this->underlying instanceof \Iterator) ?
-            $this->underlying:
+        return ($this->underlying instanceof CopyableIterator)?
+            $this->underlying->copyIterator():
             new MapIterator_FromArray($this->underlying);
     }
 
@@ -54,12 +56,12 @@ class Map implements \IteratorAggregate{
 
 }
 
-class MapIterator_FromArray implements \Iterator{
+class MapIterator_FromArray implements CopyableIterator{
 
     private $has_next_entry;
     private $underlying;
 
-    public function __construct($array){
+    public function __construct(array $array){
         $this->underlying = $array;
         $this->has_next_entry = count($array) > 0;
     }
@@ -79,6 +81,10 @@ class MapIterator_FromArray implements \Iterator{
     }
     public function valid(){
         return $this->has_next_entry;
+    }
+
+    public function copyIterator(){
+        return new MapIterator_FromArray($this->underlying);
     }
 
 }

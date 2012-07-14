@@ -2,17 +2,28 @@
 namespace x7c1\plater\collection\iterator;
 
 trait IteratorMethods {
+    // $this <: IteratorAggregate
 
     public function map($callback){
         return $this->buildFrom(new MapIterator($this->getIterator(), $callback));
     }
+
     public function filter($callback){
         return $this->buildFrom(new FilterIterator($this->getIterator(), $callback));
     }
+
     public function invoke($method){
         return $this->buildFrom(new InvokeIterator($this->getIterator(), $method));
     }
-    private function buildFrom($underlying){
+
+    public function assertIterableType($underlying){
+        $is_iterable = is_array($underlying) || ($underlying instanceof CopyableIterator);
+        if (!$is_iterable){
+            throw new \InvalidArgumentException('$underlying not iterable');
+        }
+    }
+
+    private function buildFrom(CopyableIterator $underlying){
         $class = get_class($this);
         return new $class($underlying);
     }
@@ -29,7 +40,7 @@ trait IteratorMethods {
  *     -[valid]
  */
 
-class MapIterator implements \Iterator{
+class MapIterator implements CopyableIterator{
 
     use IteratorMethods;
     use IteratorDelegator;
@@ -37,7 +48,7 @@ class MapIterator implements \Iterator{
     private $underlying;
     private $callback;
 
-    public function __construct(\Iterator $iterator, $callback){
+    public function __construct(CopyableIterator $iterator, $callback){
         $this->underlying = $iterator;
         $this->callback = $callback;
     }
@@ -47,9 +58,13 @@ class MapIterator implements \Iterator{
         $current = $this->underlying->current();
         return call_user_func($this->callback, $current, $key);
     }
+
+    public function copyIterator(){
+        return new MapIterator($this->underlying->copyIterator(), $this->callback);
+    }
 }
 
-class FilterIterator implements \Iterator{
+class FilterIterator implements CopyableIterator{
 
     use IteratorMethods;
     use IteratorDelegator;
@@ -71,6 +86,10 @@ class FilterIterator implements \Iterator{
         return $is_valid;
     }
 
+    public function copyIterator(){
+        return new FilterIterator($this->underlying->copyIterator(), $this->callback);
+    }
+
     private function inspect_next(){
         $is_valid = $this->underlying->valid();
         if ($is_valid){
@@ -84,7 +103,7 @@ class FilterIterator implements \Iterator{
     }
 }
 
-class InvokeIterator implements \Iterator{
+class InvokeIterator implements CopyableIterator{
 
     use IteratorMethods;
     use IteratorDelegator;
@@ -102,5 +121,8 @@ class InvokeIterator implements \Iterator{
         return $current->{$this->method}();
     }
 
+    public function copyIterator(){
+        return new InvokeIterator($this->underlying->copyIterator(), $this->method);
+    }
 }
 
