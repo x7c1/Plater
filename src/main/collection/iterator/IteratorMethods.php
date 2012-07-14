@@ -3,6 +3,7 @@ namespace x7c1\plater\collection\iterator;
 
 trait IteratorMethods {
     // $this <: IteratorAggregate
+    // $this->underlying <: (array | CopyableIterator)
 
     public function map($callback){
         return $this->buildFrom(new MapIterator($this->getIterator(), $callback));
@@ -14,6 +15,12 @@ trait IteratorMethods {
 
     public function invoke($method){
         return $this->buildFrom(new InvokeIterator($this->getIterator(), $method));
+    }
+
+    public function getIterator(){
+        return ($this->underlying instanceof CopyableIterator) ?
+            $this->underlying->copyIterator():
+            new RawArrayIterator($this->underlying);
     }
 
     public function assertIterableType($underlying){
