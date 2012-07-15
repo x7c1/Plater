@@ -4,7 +4,7 @@ namespace x7c1\plater\collection\iterator;
 trait IteratorMethods {
 
     /**
-     * $this             : IteratorAggregate
+     * $this : IteratorAggregate
      * $this->underlying : CopyableIterator
      */
 
@@ -16,8 +16,12 @@ trait IteratorMethods {
         return $this->buildFrom(new FilterIterator($this->getIterator(), $callback));
     }
 
+    public function take($count){
+        return $this->buildFrom(new method\TakeIterator($this->getIterator(), $count));
+    }
+
     public function invoke($method){
-        return $this->buildFrom(new InvokeIterator($this->getIterator(), $method));
+        return $this->buildFrom(new method\InvokeIterator($this->getIterator(), $method));
     }
 
     public function getIterator(){
@@ -102,29 +106,6 @@ class FilterIterator implements CopyableIterator{
             $is_target = false;
         }
         return [$is_target, $is_valid];
-    }
-}
-
-class InvokeIterator implements CopyableIterator{
-
-    use IteratorMethods;
-    use IteratorDelegator;
-
-    private $underlying;
-    private $method;
-
-    public function __construct(CopyableIterator $iterator, $method){
-        $this->underlying = $iterator;
-        $this->method = $method;
-    }
-
-    public function current(){
-        $current = $this->underlying->current();
-        return $current->{$this->method}();
-    }
-
-    public function copyIterator(){
-        return new InvokeIterator($this->underlying->copyIterator(), $this->method);
     }
 }
 

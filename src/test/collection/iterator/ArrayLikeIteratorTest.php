@@ -70,5 +70,18 @@ class ArrayLikeIteratorTest extends \PHPUnit_Framework_TestCase{
         $this->assertSame([9, 11], $x4->toArray());
     }
 
+    public function test_take(){
+        $iter = new ArrayLikeIterator([2, 3, 4, 5, 6]);
+
+        $take2 = $iter->take(4);
+        $this->assertSame([2, 3, 4, 5], $take2->toArray());
+
+        $take3 = $take2->filter(function($x){return $x > 2;});
+        $this->assertSame([3, 4, 5], $take3->toArray());
+
+        $take4 = $take3->map(function($x){return $x * 2;})->take(2);
+        $this->assertSame([6, 8], $take4->toArray());
+    }
+
 }
 
