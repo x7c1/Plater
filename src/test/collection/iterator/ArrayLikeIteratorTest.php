@@ -13,7 +13,7 @@ class ArrayLikeIteratorTest extends \PHPUnit_Framework_TestCase{
         $this->assertSame([1,2,1,2], $result);
     }
 
-    public function test_internal_pointer_after_higher_functions(){
+    public function test_internal_pointer_after_higher_order_functions(){
         $iter = new ArrayLikeIterator([1,2,3]);
         $iter = $iter
             ->map(function($x){return $x * 2;})
