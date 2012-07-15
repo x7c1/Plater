@@ -87,6 +87,20 @@ class MapTest extends \PHPUnit_Framework_TestCase{
         $this->assertSame([11, 22], $map->values());
     }
 
+    public function test_take(){
+        $map = new Map([
+            'a' => 11,
+            'b' => 22,
+            'c' => 33,
+        ]);
+        $this->assertSame([], $map->take(0)->toArray());
+        $this->assertSame(['a' => 11], $map->take(1)->toArray());
+
+        $filtered = $map->filter(function($x){ return $x > 11; });
+        $this->assertSame(['b' => 22, 'c' => 33], $filtered->take(2)->toArray());
+        $this->assertSame([], $filtered->take(0)->toArray());
+    }
+
     public function test_invoke(){
         $map = new Map([
             'a' => new MapTestSampleValue(11),
