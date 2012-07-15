@@ -48,7 +48,6 @@ trait IteratorMethods {
 
 class MapIterator implements CopyableIterator{
 
-    use IteratorMethods;
     use IteratorDelegator;
 
     private $underlying;
@@ -72,7 +71,6 @@ class MapIterator implements CopyableIterator{
 
 class FilterIterator implements CopyableIterator{
 
-    use IteratorMethods;
     use IteratorDelegator;
 
     private $underlying;
