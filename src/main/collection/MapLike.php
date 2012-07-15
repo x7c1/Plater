@@ -1,7 +1,7 @@
 <?
 namespace x7c1\plater\collection;
 
-interface MapLike {
+interface MapLike extends Arrayable{
 
     /**
      * @param   string  $key
