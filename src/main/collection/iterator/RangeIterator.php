@@ -3,6 +3,11 @@ namespace x7c1\plater\collection\iterator;
 
 class RangeIterator implements CopyableIterator{
 
+    private $key;
+    private $current;
+    private $start;
+    private $end;
+
     public function __construct($start, $end){
         $this->key = 0;
         $this->current = $start;
