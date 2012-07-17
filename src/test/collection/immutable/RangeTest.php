@@ -8,6 +8,15 @@ class RangeTest extends \PHPUnit_Framework_TestCase{
         $this->assertSame(range(3, 10), $range->toArray());
     }
 
+    public function test_constructor(){
+        try{
+            new Range("1");
+            $this->fail('InvalidArgumentException not thrown');
+        } catch(Exception $e){
+            $this->assertTrue($e instanceof InvalidArgumentException);
+        }
+    }
+
     public function test_take(){
         $range = new Range(3, 10);
         $this->assertSame([3], $range->take(1)->toArray());

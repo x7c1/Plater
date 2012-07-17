@@ -20,7 +20,7 @@ class Range implements SequenceLike, \IteratorAggregate{
         elseif(is_int($start) && is_int($end))
             $iter = new iterator\RangeIterator($start, $end);
         else
-            throw new InvalidArgumentException('arguments unknown type');
+            throw new \InvalidArgumentException('arguments unknown type');
         return $iter;
     }
 }
