@@ -7,19 +7,12 @@ use x7c1\plater\collection\iterator;
 class Sequence implements SequenceLike, \IteratorAggregate{
 
     use iterator\IteratorMethods;
+    use SequenceMethods;
 
     private $underlying;
 
     public function __construct($underlying=[]){
         $this->underlying = iterator\CopyableBuilder::build($underlying);
-    }
-
-    public function toArray(){
-        $array = [];
-        foreach($this as $value){
-            $array[] = $value;
-        }
-        return $array;
     }
 }
 

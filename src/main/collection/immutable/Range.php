@@ -7,13 +7,13 @@ use x7c1\plater\collection\iterator;
 class Range implements SequenceLike, \IteratorAggregate{
 
     use iterator\IteratorMethods;
+    use SequenceMethods;
 
     private $underlying;
 
     public function __construct($start, $end=null){
         $this->underlying = $this->build_copyable($start, $end);
     }
-
     private function build_copyable($start, $end){
         if ($start instanceof iterator\CopyableIterator)
             $iter = $start;
@@ -22,14 +22,6 @@ class Range implements SequenceLike, \IteratorAggregate{
         else
             throw new InvalidArgumentException('arguments unknown type');
         return $iter;
-    }
-
-    public function toArray(){
-        $array = [];
-        foreach($this as $value){
-            $array[] = $value;
-        }
-        return $array;
     }
 }
 
