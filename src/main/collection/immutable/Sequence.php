@@ -1,18 +1,17 @@
 <?
 namespace x7c1\plater\collection\immutable;
 
-use x7c1\plater\collection\Arrayable;
-use x7c1\plater\collection\iterator\CopyableBuilder;
-use x7c1\plater\collection\iterator\IteratorMethods;
+use x7c1\plater\collection\SequenceLike;
+use x7c1\plater\collection\iterator;
 
-class Sequence implements \IteratorAggregate, Arrayable{
+class Sequence implements SequenceLike, \IteratorAggregate{
 
-    use IteratorMethods;
+    use iterator\IteratorMethods;
 
     private $underlying;
 
     public function __construct($underlying=[]){
-        $this->underlying = CopyableBuilder::build($underlying);
+        $this->underlying = iterator\CopyableBuilder::build($underlying);
     }
 
     public function toArray(){
