@@ -1,9 +1,11 @@
 <?
-namespace x7c1\plater\collection\iterator;
+namespace x7c1\plater\collection\immutable;
 
 use x7c1\plater\collection\Arrayable;
+use x7c1\plater\collection\iterator\CopyableBuilder;
+use x7c1\plater\collection\iterator\IteratorMethods;
 
-class ArrayLikeIterator implements \IteratorAggregate, Arrayable{
+class Sequence implements \IteratorAggregate, Arrayable{
 
     use IteratorMethods;
 
