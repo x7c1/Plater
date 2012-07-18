@@ -6,7 +6,6 @@ use x7c1\plater\collection\iterator;
 
 class Range implements SequenceLike, \IteratorAggregate{
 
-    use iterator\IteratorMethods;
     use SequenceMethods;
 
     private $underlying;
