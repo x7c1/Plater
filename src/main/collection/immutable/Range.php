@@ -2,25 +2,18 @@
 namespace x7c1\plater\collection\immutable;
 
 use x7c1\plater\collection\SequenceLike;
-use x7c1\plater\collection\iterator;
+use x7c1\plater\collection\iterator\RangeIterator;
 
 class Range implements SequenceLike, \IteratorAggregate{
 
     use SequenceMethods;
 
-    private $underlying;
-
-    public function __construct($start, $end=null){
-        $this->underlying = $this->build_copyable($start, $end);
-    }
-    private function build_copyable($start, $end){
-        if ($start instanceof iterator\CopyableIterator)
-            $iter = $start;
-        elseif(is_int($start) && is_int($end))
-            $iter = new iterator\RangeIterator($start, $end);
-        else
+    private function createIterator($start, $end){
+        if(!is_int($start) || !is_int($end)){
             throw new \InvalidArgumentException('arguments unknown type');
-        return $iter;
+        }
+        return new RangeIterator($start, $end);
     }
+
 }
 
