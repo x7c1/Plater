@@ -83,5 +83,24 @@ class SequenceTest extends \PHPUnit_Framework_TestCase{
         $this->assertSame([6, 8], $take4->toArray());
     }
 
+    public function test_drop(){
+        $seq = new Sequence([2, 3, 4, 5, 6]);
+        $dropped = $seq->drop(2);
+        $this->assertSame([4, 5, 6], $dropped->toArray());
+
+        $dropped2 = $dropped->drop(1);
+        $this->assertSame([5, 6], $dropped2->toArray());
+
+        //confirm a same result after the second call
+        $this->assertSame([5, 6], $dropped2->toArray());
+    }
+
+    public function test_splitAt(){
+        $seq = new Sequence([2, 3, 4, 5, 6, 7]);
+        list($left, $right) = $seq->splitAt(3);
+        $this->assertSame([2, 3, 4], $left->toArray());
+        $this->assertSame([5, 6, 7], $right->toArray());
+    }
+
 }
 

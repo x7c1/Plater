@@ -20,6 +20,14 @@ trait IteratorMethods {
         return $this->buildFrom(new method\TakeIterator($this->getIterator(), $count));
     }
 
+    public function drop($count){
+        return $this->buildFrom(new method\DropIterator($this->getIterator(), $count));
+    }
+
+    public function splitAt($position){
+        return [$this->take($position), $this->drop($position)];
+    }
+
     public function invoke($method){
         return $this->buildFrom(new method\InvokeIterator($this->getIterator(), $method));
     }

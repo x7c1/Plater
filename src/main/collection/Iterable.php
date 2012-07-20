@@ -9,6 +9,10 @@ interface Iterable{
 
     public function take($count);
 
+    public function drop($count);
+
+    public function splitAt($position);
+
     public function invoke($method);
 }
 
