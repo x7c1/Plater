@@ -6,29 +6,24 @@ use x7c1\plater\collection\iterator\IteratorDelegator;
 
 class TakeIterator implements CopyableIterator{
 
-    use IteratorDelegator
-    {
-        IteratorDelegator::valid as baseValid;
-    }
+    use IteratorDelegator;
 
     private $underlying;
     private $target_count;
-    private $position;
+    private $original;
 
     public function __construct(CopyableIterator $iterator, $count){
-        $this->underlying = $iterator;
+        $position = 0;
+        $is_target = function($_) use($count, &$position){
+            return ++$position <= $count;
+        };
+        $this->underlying = new FilterIterator($iterator, $is_target);
         $this->target_count = $count;
-        $this->position = 0;
-    }
-
-    public function valid(){
-        $this->position++;
-        $in_range = $this->position <= $this->target_count;
-        return $in_range && $this->baseValid();
+        $this->original = $iterator;
     }
 
     public function copyIterator(){
-        return new TakeIterator($this->underlying->copyIterator(), $this->target_count);
+        return new TakeIterator($this->original->copyIterator(), $this->target_count);
     }
 }
 
