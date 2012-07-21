@@ -24,6 +24,10 @@ trait IteratorMethods {
         return $this->buildFrom(new method\DropIterator($this->getIterator(), $count));
     }
 
+    public function slice($from, $until){
+        return $this->drop($from)->take($until - $from);
+    }
+
     public function splitAt($position){
         return [$this->take($position), $this->drop($position)];
     }
@@ -40,7 +44,6 @@ trait IteratorMethods {
         $class = get_class($this);
         return new $class($underlying);
     }
-
 }
 
 /**

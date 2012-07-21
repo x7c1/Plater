@@ -11,6 +11,8 @@ interface Iterable{
 
     public function drop($count);
 
+    public function slice($from, $until);
+
     public function splitAt($position);
 
     public function invoke($method);

@@ -102,5 +102,13 @@ class SequenceTest extends \PHPUnit_Framework_TestCase{
         $this->assertSame([5, 6, 7], $right->toArray());
     }
 
+    public function test_slice(){
+        $seq = new Sequence([2, 3, 4, 5, 6, 7]);
+        $sliced = $seq->slice(2, 5);
+        $this->assertSame([4, 5, 6], $sliced->toArray());
+
+        $this->assertSame([], $sliced->slice(10, 20)->toArray());
+        $this->assertSame([4, 5, 6], $sliced->slice(0, 20)->toArray());
+    }
 }
 
