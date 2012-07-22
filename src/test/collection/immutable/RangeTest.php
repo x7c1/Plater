@@ -23,8 +23,7 @@ class RangeTest extends \PHPUnit_Framework_TestCase{
     }
 
     public function test_iterable_methods(){
-        $range = new Range(3, 10);
-        $range = $range
+        $range = Range::create(3, 10)
             ->map(function($x){ return $x * 2; })
             ->filter(function($x){ return $x > 10; })
             ->take(3);

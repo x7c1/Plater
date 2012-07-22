@@ -10,6 +10,10 @@ class Range implements SequenceLike, \IteratorAggregate{
 
     private $underlying;
 
+    public static function create($start, $end){
+        return new self($start, $end);
+    }
+
     public function __construct($start, $end=null){
         $this->underlying = $this->build_copyable($start, $end);
     }
