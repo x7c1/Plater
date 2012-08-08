@@ -1,7 +1,7 @@
 Feature
 --------
 
-#### not php-like ####
+#### unlike php ####
 
 Plater is a library that aims to ease the burden of writing PHP.
 It plans to provide some basic data-structures and framework, 
