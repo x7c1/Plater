@@ -36,6 +36,12 @@ trait IteratorMethods {
         return $this->buildFrom(new method\InvokeIterator($this->getIterator(), $method));
     }
 
+    public function evaluate($callback){
+        foreach($this as $key => $value){
+            call_user_func($callback, $value, $key);
+        }
+    }
+
     public function getIterator(){
         return $this->underlying->copyIterator();
     }

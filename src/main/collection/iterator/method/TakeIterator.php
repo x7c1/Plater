@@ -10,20 +10,23 @@ class TakeIterator implements CopyableIterator{
 
     private $underlying;
     private $target_count;
-    private $original;
+    private $is_target;
 
     public function __construct(CopyableIterator $iterator, $count){
         $position = 0;
-        $is_target = function($_) use($count, &$position){
+        $this->is_target = function() use($count, &$position){
             return ++$position <= $count;
         };
-        $this->underlying = new FilterIterator($iterator, $is_target);
+        $this->underlying = $iterator;
         $this->target_count = $count;
-        $this->original = $iterator;
+    }
+
+    public function valid(){
+        return call_user_func($this->is_target) && $this->underlying->valid();
     }
 
     public function copyIterator(){
-        return new TakeIterator($this->original->copyIterator(), $this->target_count);
+        return new TakeIterator($this->underlying->copyIterator(), $this->target_count);
     }
 }
 

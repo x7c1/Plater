@@ -31,5 +31,15 @@ class RangeTest extends \PHPUnit_Framework_TestCase{
         $this->assertSame([12, 14, 16], $range->toArray());
     }
 
+    public function test_take_and_evaluation(){
+        $counter = 0;
+        Range::create(1, 100)
+            ->filter(function($x) use(&$counter){ $counter++; return $x % 2; })
+            ->take(2)
+            ->evaluate(function($x){});
+
+        $this->assertSame(3, $counter);
+    }
+
 }
 
