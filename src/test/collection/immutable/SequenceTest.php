@@ -95,6 +95,42 @@ class SequenceTest extends \PHPUnit_Framework_TestCase{
         $this->assertSame([5, 6], $dropped2->toArray());
     }
 
+    public function test_take_and_drop(){
+        $counter = 0;
+        $list = [];
+        Sequence::create([1, 2, 3, 4, 5, 6])
+            ->filter(function($x) use(&$counter){ $counter++; return true; })
+            ->take(2)
+            ->drop(2)
+            ->evaluate(function($x) use(&$list){ $list[]=$x; });
+
+        $this->assertSame(2, $counter);
+        $this->assertSame([], $list);
+    }
+
+    public function test_drop_and_take(){
+        $counter = 0;
+        $list = [];
+        Sequence::create([1, 2, 3, 4, 5, 6])
+            ->filter(function($x) use(&$counter){ $counter++; return true; })
+            ->drop(2)
+            ->take(2)
+            ->evaluate(function($x) use(&$list){ $list[]=$x; });
+
+        $this->assertSame(4, $counter);
+        $this->assertSame([3, 4], $list);
+    }
+
+    public function test_drop_and_evaluation(){
+        $counter = 0;
+        Sequence::create([1, 2, 3, 4, 5, 6])
+            ->filter(function($x) use(&$counter){ $counter++; return true; })
+            ->drop(2)
+            ->evaluate(function($x){});
+
+        $this->assertSame(6, $counter);
+    }
+
     public function test_splitAt(){
         $seq = new Sequence([2, 3, 4, 5, 6, 7]);
         list($left, $right) = $seq->splitAt(3);

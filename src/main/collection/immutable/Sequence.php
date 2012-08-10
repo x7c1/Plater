@@ -10,6 +10,10 @@ class Sequence implements SequenceLike, \IteratorAggregate{
 
     private $underlying;
 
+    public static function create($underlying=[]){
+        return new self($underlying);
+    }
+
     public function __construct($underlying=[]){
         $this->underlying = iterator\CopyableBuilder::build($underlying);
     }
