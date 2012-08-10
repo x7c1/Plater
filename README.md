@@ -4,13 +4,13 @@ Feature
 
 * Plater's iterator supports some common but useful methods.
 
-        Sequence::create([2, 3, 4, 5, 6])
+        $array = Sequence::create([2, 3, 4, 5, 6])
             ->take(4)
             ->filter(function($x){return $x > 2;})
             ->map(function($x){return $x * 2;})
             ->drop(2)
             ->toArray();
-        $this->assertSame([10], $take4->toArray());
+        $this->assertSame([10], $array);
 
 #### Lazy iterator ####
 
