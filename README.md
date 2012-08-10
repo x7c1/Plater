@@ -1,4 +1,3 @@
-
 Feature
 --------
 #### Higher-order functions ####
@@ -31,7 +30,7 @@ Goal
 
 Plater is a library that aims to ease the burden of writing PHP.
 It plans to provide some basic data-structures and framework, 
-for instance, to make a functional implementation more easier.
+for instance, to make a functional implementation more easily.
 
 Test
 --------
