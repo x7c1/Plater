@@ -4,12 +4,13 @@ Feature
 
 * Plater's iterator supports some common but useful methods.
 
-        $seq = Sequence::create([2, 3, 4, 5, 6])
+        $sequence = Sequence::create([2, 3, 4, 5, 6])
             ->take(4)
             ->filter(function($x){return $x > 2;})
             ->map(function($x){return $x * 2;})
             ->drop(2); 
-        foreach($seq as $x) echo $x;// 10
+        foreach($sequence as $x)
+            echo $x;// 10
 
 #### Lazy iterator ####
 
@@ -39,7 +40,7 @@ Goal
 
 Plater is a library that aims to ease the burden of writing PHP.
 It plans to provide some basic data-structures and framework, 
-for instance, to make a functional implementation more easily.
+for instance, to implement a functional design more easily.
 
 Test
 --------
